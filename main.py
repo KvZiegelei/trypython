@@ -13,4 +13,4 @@ def displayDigit(digit, pos):
         divisor /= 2
 
 
-displayDigit(7,0)
+displayDigit(9,0)

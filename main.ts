@@ -17,4 +17,4 @@ function displayDigit(digit: number, pos: number) {
     }
 }
 
-displayDigit(7, 0)
+displayDigit(9, 0)
