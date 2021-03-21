@@ -3,8 +3,7 @@ def displayDigit(digit, pos):
     x0, y0 = pos % 2, pos // 2
     divisor = 8
     for n in range(4):
-        x = x0 + n % 2
-        y = y0 + pos // 2
+        x, y = x0 + n % 2, y0 + n // 2
         if digit // divisor:
             led.plot_brightness(x, y, 255)
         else:
@@ -12,5 +11,6 @@ def displayDigit(digit, pos):
         pos %= divisor
         divisor /= 2
 
-
-displayDigit(9,0)
+for n in range(1, 15):
+    x, y = n % 5, n // 5
+    led.plot_brightness(x, y, n**2)
