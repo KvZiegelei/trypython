@@ -1,3 +1,5 @@
+let start: number;
+let a0: number;
 function displayDigit(digit: number, pos: number) {
     let x: number;
     let y: number;
@@ -14,7 +16,6 @@ function displayDigit(digit: number, pos: number) {
 }
 
 function displayNumber(number: number) {
-    // basic.clear_screen()
     let num = Math.abs(number) % 10000
     let divisor = 1000
     for (let n = 0; n < 4; n++) {
@@ -31,6 +32,23 @@ function displayNumber(number: number) {
 }
 
 while (true) {
-    displayNumber(input.acceleration(Dimension.Y))
+    start = input.runningTimeMicros()
+    let [ax, ay, az, count] = [0, 0, 0, 0]
+    while (true) {
+        ax += input.acceleration(Dimension.X)
+        ay += input.acceleration(Dimension.Y)
+        az += input.acceleration(Dimension.Z)
+        count += 1
+        if (input.runningTimeMicros() - start > 1000000) {
+            break
+        }
+        
+    }
+    ax /= count
+    ay /= count
+    az /= count
+    a0 = Math.sqrt(ax ** 2 + ay ** 2 + az ** 2)
+    serial.writeValue("a0", a0)
+    serial.writeValue("count", count)
     basic.pause(1000)
 }

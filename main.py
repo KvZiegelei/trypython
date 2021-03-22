@@ -9,7 +9,6 @@ def displayDigit(digit, pos):
         divisor //= 2
 
 def displayNumber(number):
-    #basic.clear_screen()
     num = abs(number) % 10000
     divisor = 1000
     for n in range(4):
@@ -22,5 +21,19 @@ def displayNumber(number):
         led.unplot(2, 2)
 
 while True:
-    displayNumber(input.acceleration(Dimension.Y))
+    start = input.running_time_micros()
+    ax, ay, az, count = 0, 0, 0, 0
+    while True: 
+        ax += input.acceleration(Dimension.X)
+        ay += input.acceleration(Dimension.Y)
+        az += input.acceleration(Dimension.Z)
+        count += 1
+        if (input.running_time_micros() - start) > 1000000:
+             break
+    ax /= count
+    ay /= count
+    az /= count
+    a0 = Math.sqrt(ax**2 + ay**2 + az**2)
+    serial.write_value('a0', a0)
+    serial.write_value('count', count)
     basic.pause(1000)
