@@ -1,16 +1,26 @@
-
 def displayDigit(digit, pos):
-    x0, y0 = pos % 2, pos // 2
     divisor = 8
     for n in range(4):
-        x, y = x0 + n % 2, y0 + n // 2
-        if digit // divisor:
-            led.plot_brightness(x, y, 255)
-        else:
-            led.plot_brightness(x, y, 4)
-        pos %= divisor
-        divisor /= 2
+        x = 3 * (pos % 2) + n % 2
+        y = 3 * (pos // 2) + n // 2
+        b = 255 if (digit // divisor) else 4
+        led.plot_brightness(x, y, b)
+        digit %= divisor
+        divisor //= 2
 
-for n in range(1, 15):
-    x, y = n % 5, n // 5
-    led.plot_brightness(x, y, n**2)
+def displayNumber(number):
+    #basic.clear_screen()
+    num = abs(number) % 10000
+    divisor = 1000
+    for n in range(4):
+        displayDigit(num // divisor, n)
+        num %= divisor
+        divisor //= 10
+    if number < 0:
+        led.plot(2, 2)
+    else:
+        led.unplot(2, 2)
+
+while True:
+    displayNumber(input.acceleration(Dimension.Y))
+    basic.pause(1000)
